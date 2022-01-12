@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Entities;
 
@@ -47,18 +48,18 @@ namespace WebApi.Controllers
             var userList = UserList.OrderBy(x => x.Id).ToList();
             return Ok(userList);
         }
-        
+
         // FromRoute
-        [HttpGet("{id}")] 
+        [HttpGet("{id}")]
         public ActionResult<User> GetById(int id)
         {
             var user = UserList.SingleOrDefault(b => b.Id == id);
             if (user is null)
                 return NotFound();
-            
+
             return Ok(user);
         }
-        
+
         [HttpPost]
         public IActionResult AddUser([FromBody] User newUser)
         {
@@ -84,7 +85,7 @@ namespace WebApi.Controllers
 
             return Ok();
         }
-        
+
         // From Query
         [HttpDelete]
         public IActionResult DeleteUser([FromQuery] int id)
@@ -95,6 +96,31 @@ namespace WebApi.Controllers
 
             UserList.Remove(user);
             return Ok();
+        }
+
+
+        /*
+         * PATCH /api/Persons
+         [     
+            {       
+                "op": "replace",       
+                "path": "/email",       
+                "value": "email@email.com"  
+            } 
+         ]
+         */
+        [HttpPatch("{id}")]
+        public IActionResult UpdateUserEmail(int id, [FromBody] JsonPatchDocument<User> patchDocument)
+        {
+            var user = UserList.SingleOrDefault(u => u.Id == id);
+            if (user is null)
+                return BadRequest();
+
+            patchDocument.ApplyTo(user, ModelState);
+            if (ModelState.IsValid)
+                return Ok(user);
+
+            return BadRequest(ModelState);
         }
     }
 }
