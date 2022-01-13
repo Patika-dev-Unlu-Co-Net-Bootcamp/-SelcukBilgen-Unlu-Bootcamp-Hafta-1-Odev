@@ -1,7 +1,7 @@
 # 1. Hafta Ödev
 
 
-🏄 Derste yaşanan enstanteneler üzerine  
+🏄 Derste yaşanan enstantaneler üzerine  
 
 Kullanıcı girişi için POST metodu kullanılır.  
 GET metodlarında url'de görülmesini istemediğimiz bilgiler olabilir.
