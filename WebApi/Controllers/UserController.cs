@@ -69,7 +69,7 @@ namespace WebApi.Controllers
                 return BadRequest("Kullanıcı daha önce kayıt olmuş");
 
             UserList.Add(newUser);
-            return Ok();
+            return StatusCode(201); 
         }
 
         [HttpPut("{id}")]
@@ -109,6 +109,8 @@ namespace WebApi.Controllers
             } 
          ]
          */
+        
+        /*
         [HttpPatch("{id}")]
         public IActionResult UpdateUserEmail(int id, [FromBody] JsonPatchDocument<User> patchDocument)
         {
@@ -121,6 +123,18 @@ namespace WebApi.Controllers
                 return Ok(user);
 
             return BadRequest(ModelState);
+        }*/
+        
+        [HttpPatch("{id}")]
+        public IActionResult UpdateUserEmail(int id, [FromBody] string email)
+        {
+            var user = UserList.SingleOrDefault(u => u.Id == id);
+            if (user is null)
+                return BadRequest();
+
+            user.Email = email != default ? email : user.Email;
+
+            return Ok();
         }
     }
 }
