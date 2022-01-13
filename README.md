@@ -1,5 +1,5 @@
 # 1. Hafta Ödev
-Restful Api Geliştirin
+
 
 🏄 Derste yaşanan enstanteneler üzerine  
 
@@ -22,6 +22,10 @@ Date: Thu, 13 Oct 2016 11:45:00 GMT
 Server: EOS (lax004/2813)
    
 --------------------------------*****************---------------------------
+   
+Restful Api Geliştirin
+   
+
 - Rest standartlarna uygun olmalıdır.
 - GET,POST,PUT,DELETE,PATCH methodları kullanılmalıdır.
 - Http status code standartlarına uyulmalıdır. Error Handler ile 500, 400, 404, 200,
