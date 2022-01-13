@@ -39,6 +39,20 @@ namespace WebApi.Controllers
                 Email = "selcuk.bilgen@mail.com",
                 UserName = "Selçuk Bilgen",
                 UserRole = UserRole.Client
+            },
+            new User
+            {
+                Id = 5,
+                Email = "hakki.bulut@mail.com",
+                UserName = "Hakkı Bulut",
+                UserRole = UserRole.Client
+            },
+            new User
+            {
+                Id = 6,
+                Email = "serkan.merkan@mail.com",
+                UserName = "Serkan Merkan",
+                UserRole = UserRole.Client
             }
         };
 
@@ -51,7 +65,7 @@ namespace WebApi.Controllers
 
         // FromRoute
         [HttpGet("{id}")]
-        public ActionResult<User> GetById(int id)
+        public ActionResult<User> GetById([FromRoute] int id)
         {
             var user = UserList.SingleOrDefault(b => b.Id == id);
             if (user is null)
@@ -69,7 +83,7 @@ namespace WebApi.Controllers
                 return BadRequest("Kullanıcı daha önce kayıt olmuş");
 
             UserList.Add(newUser);
-            return StatusCode(201); 
+            return StatusCode(201);
         }
 
         [HttpPut("{id}")]
@@ -109,7 +123,7 @@ namespace WebApi.Controllers
             } 
          ]
          */
-        
+
         /*
         [HttpPatch("{id}")]
         public IActionResult UpdateUserEmail(int id, [FromBody] JsonPatchDocument<User> patchDocument)
@@ -124,7 +138,7 @@ namespace WebApi.Controllers
 
             return BadRequest(ModelState);
         }*/
-        
+
         [HttpPatch("{id}")]
         public IActionResult UpdateUserEmail(int id, [FromBody] string email)
         {
@@ -135,6 +149,18 @@ namespace WebApi.Controllers
             user.Email = email != default ? email : user.Email;
 
             return Ok();
+        }
+        
+        
+        // Örn: /api/products/list?name=abc
+
+        [HttpGet("list")]
+        public ActionResult<List<User>> GetByFilter([FromQuery] string filter)
+        {
+            var searchedUserList = UserList.FindAll(u => u.UserName.Contains(filter));
+
+
+            return Ok(searchedUserList);
         }
     }
 }
